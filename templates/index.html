@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Flask Plotlyjs Example</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>CCES Interactive Dashboard</h1>
+        <p>Use the interactive charts below to explore the dataset</p>
+      </div>
+    </div>
+    <div class="row">
+        
+<!--   Metadata Section, Dropdown then Data Sample-->
+      <div class="col-md-2">
+        <div class="well">
+          <h5>SELECT Sample:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div>
+        
+<!--    Link the Build Metadata app.js to the panel div ID below  -->
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sample MetaData</h3>
+          </div>
+        <div id="sample-metadata" class="panel-body"></div>
+        </div>
+      </div>
+       
+        
+<!--  Link the pie chart from the app.js to the pie ID below-->
+      <div class="col-md-5">
+        <div id="pie"></div>
+      </div>
+        
+        
+<!--  Link the gauge from the app.js, if it is developed  -->
+      <div class="col-md-5">
+        <div id="gauge"></div>
+      </div>
+        
+        
+    </div>      <!-- Close the Div Class Row -->
+  </div>        <!-- Close Container Div -->
+    
+    
+<!--  Link the bubble plot from app.js to the bubble div ID below-->
+      <div class="row">
+        <div class="col-md-12">
+          <div id="bubble"></div>
+        </div>
+      </div>
+
+  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="{{ url_for('static', filename='js/bonus.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
