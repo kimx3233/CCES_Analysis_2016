@@ -8,7 +8,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import func
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -34,16 +34,27 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///db/CCES_Ver50.sqlite")
-conn = engine.connect()
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/CCES_Ver50.sqlite"
+db = SQLAlchemy(app)
+
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
-Base.prepare(engine, reflect=True)
-# Save reference to the table
+Base.prepare(db.engine, reflect=True)
+
+# Save references to each table - there are two tables (sample_metadata and samples)
 Cces = Base.classes.CCES_16
-# Create our session (link) from Python to the DB
-session = Session(engine)
+
+# engine = create_engine("sqlite:///db/CCES_Ver50.sqlite")
+# conn = engine.connect()
+# # reflect an existing database into a new model
+# Base = automap_base()
+# # reflect the tables
+# Base.prepare(engine, reflect=True)
+# # Save reference to the table
+# Cces = Base.classes.CCES_16
+# # Create our session (link) from Python to the DB
+# session = Session(engine)
 
 #################################################
 # Define Sample Names and Query Addresses
@@ -74,7 +85,7 @@ def index():
     return render_template("index.html")
 
 #################################################
-# JSON - Column Names Route
+# JSON - Column Names Route - Create a List of Names
 #################################################
 
 @app.route("/names")
@@ -82,8 +93,8 @@ def names():
     """Return a list of sample names."""
 
     # Use Pandas to perform the sql query
-    stmt = session.query(Cces).statement
-    df = pd.read_sql_query(stmt, session.bind)
+    stmt = db.session.query(Cces).statement
+    df = pd.read_sql_query(stmt, db.session.bind)
 
     # Return a list of the column names (sample names - start with the 8th column since columns 0-7 are respondent profile, not survey responses)
     return jsonify(list(df.columns)[8:])
@@ -95,18 +106,18 @@ def names():
 @app.route("/metadatatotals/<sample>")
 def sample_metadatatotals(sample):
     """Return the totals for a given sample"""
-    TotalResults = []
+    TotalResults = {}
     
     TotalApprove = {}
     TotalOppose = {}
     
-    ApproveTemp = session.query(Cces).filter(sample == 'Support').count()
-    TotalApprove['Approve'] = ApproveTemp
-    TotalResults.append(TotalApprove)
+    ApproveTemp = db.session.query(Cces).filter(sample == 'Support').count()
+    TotalResults['Approve'] = ApproveTemp
+    # TotalResults['Approve'] = TotalApprove
     
-    OpposeTemp = session.query(Cces).filter(sample == 'Oppose').count()
-    TotalOppose['Oppose'] = OpposeTemp
-    TotalResults.append(TotalOppose)
+    OpposeTemp = db.session.query(Cces).filter(sample == 'Oppose').count()
+    TotalResults['Oppose'] = OpposeTemp
+    # TotalResults['Oppose'] = TotalOppose
 
     print(TotalResults)
     return jsonify(TotalResults)
@@ -119,15 +130,15 @@ def sample_metadatatotals(sample):
 def Metadata_States(sample):
     
     # Query to create two lists of tuples (state, number)
-    StatesFor = session.query(Cces.StateName, func.count(sample)).\
+    StatesFor = db.session.query(Cces.StateName, func.count(sample)).\
                 filter(sample == 'Support').\
                 group_by(Cces.StateName).all()
-    StatesNot = session.query(Cces.StateName, func.count(sample)).\
+    StatesNot = db.session.query(Cces.StateName, func.count(sample)).\
                 filter(sample == 'Oppose').\
                 group_by(Cces.StateName).all()
 
     # List that will hold final dictionaries - to be jsonified
-    States_Results = []
+    States_Results = {}
     
     for i, j in zip(StatesFor, StatesNot):
 
@@ -141,7 +152,7 @@ def Metadata_States(sample):
             tempoverall = 'Oppose'
         tempfile['Overall'] = tempoverall
 
-        States_Results.append(tempfile)
+        States_Results[i[0]] = tempfile
 
     print(States_Results)
     return jsonify(States_Results)
@@ -153,8 +164,8 @@ def Metadata_States(sample):
 def sample_metadata():
 
 
-    StatesFor = session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Support').group_by(Cces.StateName).all()
-    StatesNot = session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Oppose').group_by(Cces.StateName).all()
+    StatesFor = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Support').group_by(Cces.StateName).all()
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Oppose').group_by(Cces.StateName).all()
 
     # Create a dictionary entry for each row of metadata information
     SecondTry = []
