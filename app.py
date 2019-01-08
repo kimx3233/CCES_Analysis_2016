@@ -10,12 +10,13 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Float
 # from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import func
+from sqlalchemy import and_, or_, not_
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-#################################################
+##################################################################################################
 # APP TABLE OF CONTENTS - THIS SECTION IS JUST COMMENTS - NOT MEANT TO BE CODE:
 #
 # Database Setup
@@ -26,10 +27,9 @@ app = Flask(__name__)
 # Names Route (@app.route("/names")) - JSON - List of strings
 # Metadata Totals (@app.route("/metadatatotals/<sample>")) - JSON - List of Dict
 # Metadata States Groupy (@app.route("/metadata_states/<sample>")) - JSON - List of Dict
-# Example of hard Coded Query (@app.route("/metadata/GunBC")) - JSON - List of Dict
 #
 # Debugger (active)
-#################################################
+##################################################################################################
 
 #################################################
 # Database Setup
@@ -45,35 +45,6 @@ Base.prepare(db.engine, reflect=True)
 # Save references to the table
 Cces = Base.classes.Cces_16
 
-# engine = create_engine("sqlite:///db/CCES_Ver50.sqlite")
-# conn = engine.connect()
-# # reflect an existing database into a new model
-# Base = automap_base()
-# # reflect the tables
-# Base.prepare(engine, reflect=True)
-# # Save reference to the table
-# Cces = Base.classes.CCES_16
-# # Create our session (link) from Python to the DB
-# session = Session(engine)
-
-#################################################
-# Define Sample Names and Query Addresses
-#################################################
-# Gun Questions
-# GunBackgroundChecks_16 = Cces.GunBackgroundChecks_16
-# ProhibitPublication_16 = Cces.ProhibitPublication_16
-# BanAssultWeapons_16 = Cces.BanAssultWeapons_16
-# MakeCCPEasier_16 = Cces.MakeCCPEasier_16
-
-# # Abortion Questions
-# AlwaysAllowChoice_16 = Cces.AlwaysAllowChoice_16
-# RapeIncestorHealth_16 = Cces.RapeIncestorHealth_16
-# ProhibitMoreThan20Weeks_16 = Cces.ProhibitMoreThan20Weeks_16
-# Employersdeclinebenefits_16 = Cces.Employersdeclinebenefits_16
-# ProhibitFedFunds_16 = Cces.ProhibitFedFunds_16
-
-# # Gay Marriage Question
-# GayMarriage = Cces.GayMarriage
 
 #################################################
 # Homepage Route
@@ -96,48 +67,228 @@ def names():
     stmt = db.session.query(Cces).statement
     df = pd.read_sql_query(stmt, db.session.bind)
 
-##################################################################
-
-    # GunBackgroundChecks_16 = Cces.GunBackgroundChecks_16
-    # ProhibitPublication_16 = Cces.ProhibitPublication_16
-    # BanAssultWeapons_16 = Cces.BanAssultWeapons_16
-    # MakeCCPEasier_16 = Cces.MakeCCPEasier_16
-    # AlwaysAllowChoice_16 = Cces.AlwaysAllowChoice_16
-    # RapeIncestorHealth_16 = Cces.RapeIncestorHealth_16
-    # ProhibitMoreThan20Weeks_16 = Cces.ProhibitMoreThan20Weeks_16
-    # Employersdeclinebenefits_16 = Cces.Employersdeclinebenefits_16
-    # ProhibitFedFunds_16 = Cces.ProhibitFedFunds_16
-    # GayMarriage = Cces.GayMarriage
-
-    # dropDownList = [GunBackgroundChecks_16, ProhibitPublication_16, BanAssultWeapons_16, MakeCCPEasier_16, AlwaysAllowChoice_16,
-    #                 RapeIncestorHealth_16, RapeIncestorHealth_16, ProhibitMoreThan20Weeks_16, Employersdeclinebenefits_16,
-    #                 ProhibitFedFunds_16, GayMarriage]
-    ###############################################################
-    # Return a list of the column names (sample names - start with the 11th column since columns 0-7 are respondent profile, not survey responses)
     return jsonify(list(df.columns)[11:])
-    # return jsonify(dropDownList)
+    
+##################################################################################################
+# JSON - METADATA TOTALS ROUTES
+##################################################################################################
 #################################################
-# JSON - Totals Route - returning 2, 4, or 6 results
+# JSON - METADATA TOTALS GunBackgroundChecks_16
 #################################################
-
-@app.route("/metadatatotals/<sample>")
-def sample_metadatatotals(sample):
+@app.route("/metadatatotalsGunBackgroundChecks_16")
+def sample_metadatatotals1():
     """Return the totals for a given sample"""
 
     TotalResults = {}
     
-    ApproveTemp = db.session.query(Cces).filter(sample == "Support").count()
-    TotalResults['Approve'] = ApproveTemp
-    
-    OpposeTemp = db.session.query(Cces).filter(sample == "Oppose").count()
-    TotalResults['Oppose'] = OpposeTemp
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.GunBackgroundChecks_16 == "Support").count()    
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.GunBackgroundChecks_16 == "Oppose").count()
 
     print(TotalResults)
     return jsonify(TotalResults)
 
 #################################################
-# JSON - State Totals Route based on Dropdown
+# JSON - METADATA TOTALS ProhibitPublication_16
 #################################################
+@app.route("/metadatatotalsProhibitPublication_16")
+def sample_metadatatotals2():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.ProhibitPublication_16 == "Support").count()   
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.ProhibitPublication_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS BanAssultWeapons_16
+#################################################
+@app.route("/metadatatotalsBanAssultWeapons_16")
+def sample_metadatatotals3():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.BanAssultWeapons_16 == "Support").count()    
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.BanAssultWeapons_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS MakeCCPEasier_16
+#################################################
+@app.route("/metadatatotalsMakeCCPEasier_16")
+def sample_metadatatotals4():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.MakeCCPEasier_16 == "Support").count()   
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.MakeCCPEasier_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS AlwaysAllowChoice_16
+#################################################
+@app.route("/metadatatotalsAlwaysAllowChoice_16")
+def sample_metadatatotals5():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.AlwaysAllowChoice_16 == "Support").count()    
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.AlwaysAllowChoice_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS RapeIncestorHealth_16
+#################################################
+@app.route("/metadatatotalsRapeIncestorHealth_16")
+def sample_metadatatotals6():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.RapeIncestorHealth_16 == "Support").count()   
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.RapeIncestorHealth_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS ProhibitMoreThan20Weeks_16
+#################################################
+@app.route("/metadatatotalsProhibitMoreThan20Weeks_16")
+def sample_metadatatotals7():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.ProhibitMoreThan20Weeks_16 == "Support").count()    
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.ProhibitMoreThan20Weeks_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS Employersdeclinebenefits_16
+#################################################
+@app.route("/metadatatotalsEmployersdeclinebenefits_16")
+def sample_metadatatotals8():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.Employersdeclinebenefits_16 == "Support").count()   
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.Employersdeclinebenefits_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS ProhibitFedFunds_16
+#################################################
+@app.route("/metadatatotalsProhibitFedFunds_16")
+def sample_metadatatotals9():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.ProhibitFedFunds_16 == "Support").count()   
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.ProhibitFedFunds_16 == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+
+#################################################
+# JSON - METADATA TOTALS GayMarriage
+#################################################
+@app.route("/metadatatotalsGayMarriage")
+def sample_metadatatotals10():
+    """Return the totals for a given sample"""
+
+    TotalResults = {}
+    
+    TotalResults['Approve'] = db.session.query(Cces).filter(Cces.GayMarriage == "Support").count()    
+    TotalResults['Oppose'] = db.session.query(Cces).filter(Cces.GayMarriage == "Oppose").count()
+
+    print(TotalResults)
+    return jsonify(TotalResults)
+###################################################################################################################################################
+###################################################################################################################################################
+
+##################################################################################################
+# JSON - METADATA STATE GROUP_BY TOTALS ROUTES GunBackgroundChecks_16
+##################################################################################################
+@app.route("/metadata_statesGunBackgroundChecks_16")
+
+def Metadata_States1():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(Cces.GunBackgroundChecks_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(and_(Cces.GunBackgroundChecks_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(and_(Cces.GunBackgroundChecks_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(Cces.GunBackgroundChecks_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(and_(Cces.GunBackgroundChecks_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(and_(Cces.GunBackgroundChecks_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+        }
+        States_Results.append(tempfile)
+    print(States_Results)
+    return jsonify(States_Results)
+##################################################################################################
+# JSON - METADATA STATE GROUP_BY TOTALS ROUTES
+##################################################################################################
 
 @app.route("/metadata_states/<sample>")
 def Metadata_States(sample):
@@ -173,7 +324,7 @@ def Metadata_States(sample):
 #################################################
 # JSON - Example JSON return for a single hard-coded query on Gun Background Checks
 #################################################
-@app.route("/metadata/GunBC")
+@app.route("/metadata/GunBackgroundChecks_16")
 def sample_metadata():
 
 
