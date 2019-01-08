@@ -16,25 +16,25 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 #################################################
-# App Contents
+# APP TABLE OF CONTENTS - THIS SECTION IS JUST COMMENTS - NOT MEANT TO BE CODE:
 #
 # Database Setup
 # Define Sample Names and Query Addresses
 #
 # Routes
 # Homepage Route (@app.route("/")) - HTML Template
-# Names Route (@app.route("/names")) - JSON
-# Metadata Totals (@app.route("/metadatatotals/<sample>")) - JSON
-# Metadata States Groupy (@app.route("/metadata_states/<sample>")) - JSON
-# Example of hard Coded Query (@app.route("/metadata/GunBC")) - JSON
+# Names Route (@app.route("/names")) - JSON - List of strings
+# Metadata Totals (@app.route("/metadatatotals/<sample>")) - JSON - List of Dict
+# Metadata States Groupy (@app.route("/metadata_states/<sample>")) - JSON - List of Dict
+# Example of hard Coded Query (@app.route("/metadata/GunBC")) - JSON - List of Dict
 #
-# Debugger (not active)
+# Debugger (active)
 #################################################
 
 #################################################
 # Database Setup
 #################################################
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/CCES_Ver50.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/CCES_Ver61.sqlite"
 db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
@@ -42,8 +42,8 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(db.engine, reflect=True)
 
-# Save references to each table - there are two tables (sample_metadata and samples)
-Cces = Base.classes.CCES_16
+# Save references to the table
+Cces = Base.classes.Cces_16
 
 # engine = create_engine("sqlite:///db/CCES_Ver50.sqlite")
 # conn = engine.connect()
@@ -60,20 +60,20 @@ Cces = Base.classes.CCES_16
 # Define Sample Names and Query Addresses
 #################################################
 # Gun Questions
-GunBackgroundChecks_16 = Cces.GunBackgroundChecks_16
-ProhibitPublication_16 = Cces.ProhibitPublication_16
-BanAssultWeapons_16 = Cces.BanAssultWeapons_16
-MakeCCPEasier_16 = Cces.MakeCCPEasier_16
+# GunBackgroundChecks_16 = Cces.GunBackgroundChecks_16
+# ProhibitPublication_16 = Cces.ProhibitPublication_16
+# BanAssultWeapons_16 = Cces.BanAssultWeapons_16
+# MakeCCPEasier_16 = Cces.MakeCCPEasier_16
 
-# Abortion Questions
-AlwaysAllowChoice_16 = Cces.AlwaysAllowChoice_16
-RapeIncestorHealth_16 = Cces.RapeIncestorHealth_16
-ProhibitMoreThan20Weeks_16 = Cces.ProhibitMoreThan20Weeks_16
-Employersdeclinebenefits_16 = Cces.Employersdeclinebenefits_16
-ProhibitFedFunds_16 = Cces.ProhibitFedFunds_16
+# # Abortion Questions
+# AlwaysAllowChoice_16 = Cces.AlwaysAllowChoice_16
+# RapeIncestorHealth_16 = Cces.RapeIncestorHealth_16
+# ProhibitMoreThan20Weeks_16 = Cces.ProhibitMoreThan20Weeks_16
+# Employersdeclinebenefits_16 = Cces.Employersdeclinebenefits_16
+# ProhibitFedFunds_16 = Cces.ProhibitFedFunds_16
 
-# Gay Marriage Question
-GayMarriage = Cces.GayMarriage
+# # Gay Marriage Question
+# GayMarriage = Cces.GayMarriage
 
 #################################################
 # Homepage Route
@@ -92,13 +92,30 @@ def index():
 def names():
     """Return a list of sample names."""
 
-    # Use Pandas to perform the sql query
+    # # Use Pandas to perform the sql query
     stmt = db.session.query(Cces).statement
     df = pd.read_sql_query(stmt, db.session.bind)
 
-    # Return a list of the column names (sample names - start with the 8th column since columns 0-7 are respondent profile, not survey responses)
-    return jsonify(list(df.columns)[8:])
+##################################################################
 
+    # GunBackgroundChecks_16 = Cces.GunBackgroundChecks_16
+    # ProhibitPublication_16 = Cces.ProhibitPublication_16
+    # BanAssultWeapons_16 = Cces.BanAssultWeapons_16
+    # MakeCCPEasier_16 = Cces.MakeCCPEasier_16
+    # AlwaysAllowChoice_16 = Cces.AlwaysAllowChoice_16
+    # RapeIncestorHealth_16 = Cces.RapeIncestorHealth_16
+    # ProhibitMoreThan20Weeks_16 = Cces.ProhibitMoreThan20Weeks_16
+    # Employersdeclinebenefits_16 = Cces.Employersdeclinebenefits_16
+    # ProhibitFedFunds_16 = Cces.ProhibitFedFunds_16
+    # GayMarriage = Cces.GayMarriage
+
+    # dropDownList = [GunBackgroundChecks_16, ProhibitPublication_16, BanAssultWeapons_16, MakeCCPEasier_16, AlwaysAllowChoice_16,
+    #                 RapeIncestorHealth_16, RapeIncestorHealth_16, ProhibitMoreThan20Weeks_16, Employersdeclinebenefits_16,
+    #                 ProhibitFedFunds_16, GayMarriage]
+    ###############################################################
+    # Return a list of the column names (sample names - start with the 11th column since columns 0-7 are respondent profile, not survey responses)
+    return jsonify(list(df.columns)[11:])
+    # return jsonify(dropDownList)
 #################################################
 # JSON - Totals Route - returning 2, 4, or 6 results
 #################################################
@@ -106,18 +123,14 @@ def names():
 @app.route("/metadatatotals/<sample>")
 def sample_metadatatotals(sample):
     """Return the totals for a given sample"""
+
     TotalResults = {}
     
-    TotalApprove = {}
-    TotalOppose = {}
-    
-    ApproveTemp = db.session.query(Cces).filter(sample == 'Support').count()
+    ApproveTemp = db.session.query(Cces).filter(sample == "Support").count()
     TotalResults['Approve'] = ApproveTemp
-    # TotalResults['Approve'] = TotalApprove
     
-    OpposeTemp = db.session.query(Cces).filter(sample == 'Oppose').count()
+    OpposeTemp = db.session.query(Cces).filter(sample == "Oppose").count()
     TotalResults['Oppose'] = OpposeTemp
-    # TotalResults['Oppose'] = TotalOppose
 
     print(TotalResults)
     return jsonify(TotalResults)
@@ -130,15 +143,15 @@ def sample_metadatatotals(sample):
 def Metadata_States(sample):
     
     # Query to create two lists of tuples (state, number)
-    StatesFor = db.session.query(Cces.StateName, func.count(sample)).\
-                filter(sample == 'Support').\
+    StatesFor = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(Cces.GunBackgroundChecks_16 == 'Support').\
                 group_by(Cces.StateName).all()
-    StatesNot = db.session.query(Cces.StateName, func.count(sample)).\
-                filter(sample == 'Oppose').\
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).\
+                filter(Cces.GunBackgroundChecks_16 == 'Oppose').\
                 group_by(Cces.StateName).all()
 
     # List that will hold final dictionaries - to be jsonified
-    States_Results = {}
+    States_Results = []
     
     for i, j in zip(StatesFor, StatesNot):
 
@@ -152,7 +165,7 @@ def Metadata_States(sample):
             tempoverall = 'Oppose'
         tempfile['Overall'] = tempoverall
 
-        States_Results[i[0]] = tempfile
+        States_Results.append(tempfile)
 
     print(States_Results)
     return jsonify(States_Results)
@@ -193,4 +206,4 @@ def sample_metadata():
 #################################################
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
