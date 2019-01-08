@@ -143,11 +143,11 @@ def sample_metadatatotals(sample):
 def Metadata_States(sample):
     
     # Query to create two lists of tuples (state, number)
-    StatesFor = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).\
-                filter(Cces.GunBackgroundChecks_16 == 'Support').\
+    StatesFor = db.session.query(Cces.StateName, func.count(Cces.sample)).\
+                filter(Cces.sample == 'Support').\
                 group_by(Cces.StateName).all()
-    StatesNot = db.session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).\
-                filter(Cces.GunBackgroundChecks_16 == 'Oppose').\
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.sample)).\
+                filter(Cces.sample == 'Oppose').\
                 group_by(Cces.StateName).all()
 
     # List that will hold final dictionaries - to be jsonified
