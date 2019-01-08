@@ -1,27 +1,110 @@
 body {
-  padding: 0;
-  margin: 0;
+  background: lightgray;
+}
+.navbar-default .navbar-brand {
+  color: white;
+  background-color: rgb(20, 168, 153);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-#map,
-body,
-html {
-  height: 100%;
+
+.navbar-header{
+  width:400px;
+  margin-left:75px !important;
 }
 
-
-.legend {
-  padding: 12px 12px 12px 8px;
-
-  line-height: 22px;
-  /* color: #555; */
-  background: white;
+.navbar-header .navbar-toggle .collapsed {
+float: right;
 }
 
-.legend i {
-  width: 22px;
-  height: 22px;
-  float: left;
-  margin-right: 8px;
-  opacity: 0.8;
+.content{
+  margin-top:50px;
+}
+
+h1 {
+  color: rgb(20, 168, 153);
+font-family: Georgia;
+font-size: 30px;
+font-weight: bold;
+text-align: left
+}
+
+h2 {
+  color: rgb(20, 168, 153);
+  font-family: Georgia;
+font-size: 23px;
+font-weight: bold;
+text-align: center
+}
+
+h3 {
+font-family: Georgia;
+font-weight: 300;
+text-align: center;
+}
+
+.box {
+color: black;
+background: white;
+}
+
+.box-left {
+padding: 20px;
+}
+
+.box-right {
+padding: 30px;
+}
+
+.box-single {
+padding: 10px;
+margin: 30px;
+}
+
+#summary {
+margin: 10px;
+font-size: 17px;
+line-height: 1.8em;
+}
+
+#city-sample {
+float: left;
+width: 200px;
+height: 200px;
+margin: 10px 20px;
+}
+
+#landing-viz {
+padding:15px 15px 15px 15px;
+width: 100%;
+height: 100%;
+}
+
+.figure:active{
+border: 5px solid #cc5500;
+}
+
+.jumbotron {
+color: white;
+background: turquoise;
+width: 100%;
+height: 100%;
+padding: 25px
+}
+
+.table {
+color: black;
+background: lightgray;
+width: 90%;
+height: 90%;
+padding: 15px;
+margin-left: 1%;
+
+}
+
+#viz-main {
+padding: 25px 40px 30px 40px;
+width: 100%;
 }
