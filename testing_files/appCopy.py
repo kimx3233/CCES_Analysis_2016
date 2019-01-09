@@ -141,7 +141,7 @@ def sample_metadatatotals():
 
 @app.route("/metadata_states/<sample>")
 def Metadata_States(sample):
-    
+    sample = str(sample)
     # Query to create two lists of tuples (state, number)
     StatesFor = db.session.query(Cces.StateName, func.count(Cces.sample)).\
                 filter(Cces.sample == 'Support').\
