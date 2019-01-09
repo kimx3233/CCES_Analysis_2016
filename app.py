@@ -45,7 +45,6 @@ Base.prepare(db.engine, reflect=True)
 # Save references to the table
 Cces = Base.classes.Cces_16
 
-
 #################################################
 # Homepage Route
 #################################################
