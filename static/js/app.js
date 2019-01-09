@@ -3,7 +3,7 @@ function buildMetadata(sample) {
   // Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the app.py metadata for a sample (Flask Route)
-  d3.json(`/metadata/${sample}`).then((data) => {
+  d3.json(`/metadatatotals${sample}`).then((data) => {
       
     // Use d3 to select the html panel with id of `#sample-metadata`
       var Panel = d3.select("#sample-metadata");
@@ -13,54 +13,34 @@ function buildMetadata(sample) {
       Object.entries(data).forEach(([key, value]) => {
           Panel.append("h6").text(`${key}: ${value}`);
           console.log(key, value);
+          console.log('this is a key: ', key);
+          console.log('this is a value: ', value);
+          console.log('this is data:', data);
+          console.log('this is the sample variable', sample);
       });
-    // BONUS: Build the Gauge Chart
-    // buildGauge(data.WFREQ);
 });
 }
 
-
-function buildCharts(sample) {
-
-  // Use `d3.json` to fetch the sample data for the plots
-    d3.json(`/samples/${sample}`).then((data) => {
-        const otu_ids = data.otu_ids;
-        const otu_labels = data.otu_labels;
-        const sample_values = data.sample_values;
-        
-        // console.log the otu ids, labels, and sample value
-        console.log(otu_ids, otu_labels, sample_values);
+// PIE CHART FOR SURVAY TOTALS ONLY
+function pieChart(sample) {
+//   // Use `d3.json` to fetch the sample data for the plots
+    d3.json(`/metadatatotals${sample}`).then((data) => {
+        var labels = [];
+        var values = [];
+        Object.entries(data).forEach(([key, value]) => {
+          labels.push(key);
+          console.log(key, ' was added to the labels array');
+          values.push(value);
+          console.log(value, ' was added to the values array');
+          console.log('labels array: ', labels);
+          console.log('values array: ', values);
    
-    // Build a Bubble Chart using the sample data
-        var bubbleLayout = {
-            margin: { t: 0},
-            hovermode: "closest",
-            xaxis: { title: "OTU ID"}
-        };
-        
-        var bubbleData = [
-            {
-                x : otu_ids,
-                y : sample_values,
-                text : otu_labels,
-                mode : "markers",
-                marker: {
-                    size: sample_values,
-                    color: otu_ids,
-                    colorscale: "Earth"
-                }
-            }
-        ];
-        
-        // Link the Plotly.plot to the html ID = bubble
-        Plotly.plot("bubble", bubbleData, bubbleLayout);
-        
-        
+
     // Build a Pie Chart
         var pieData = [{
-                values : sample_values.slice(0, 10),
-                labels : otu_ids.slice(0, 10),
-                hovertext : otu_labels.slice(0, 10),
+                values : values,
+                labels : labels,
+                hovertext : labels,
                 hoverinfo: "hovertext",
                 type: "pie"
             }];
@@ -70,16 +50,16 @@ function buildCharts(sample) {
         };
         
         // insert in the html div ID = pie
-        Plotly.plot("pie", pieData, pieLayout);
-        
+        Plotly.plot("pie", pieData, pieLayout);       
  });
+});
 }
 
-
+// Create Dropdown Menu, Populate first tables and visuals
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
-
+  console.log('test test test')
   // Use the list of sample names to populate the select options
   d3.json("/names").then((sampleNames) => {
     sampleNames.forEach((sample) => {
@@ -91,15 +71,24 @@ function init() {
 
     // Use the first sample from the list to build the initial plots
     const firstSample = sampleNames[0];
-    buildCharts(firstSample);
+    console.log('is this working');
+    console.log('this is the firstSample variable:', firstSample);
+  
+    // buildCharts(firstSample);
+    console.log(firstSample);
+    
     buildMetadata(firstSample);
+    pieChart(firstSample);
+    
   });
 }
 
+// On Dropdown Menu Change - Update Tables and Charts
 function optionChanged(newSample) {
   // Fetch new data each time a new sample is selected
-  buildCharts(newSample);
   buildMetadata(newSample);
+  pieChart(newSample);
+  console.log(newSample);
 }
 
 // Initialize the dashboard
