@@ -378,34 +378,611 @@ def Metadata_States2():
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES BanAssultWeapons_16
 #########################################################
+@app.route("/metadata_statesBanAssultWeapons_16")
+def Metadata_States3():
+
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.BanAssultWeapons_16)).\
+                filter(Cces.BanAssultWeapons_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.BanAssultWeapons_16)).\
+                filter(and_(Cces.BanAssultWeapons_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.BanAssultWeapons_16)).\
+                filter(and_(Cces.BanAssultWeapons_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.BanAssultWeapons_16)).\
+                filter(Cces.BanAssultWeapons_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.BanAssultWeapons_16)).\
+                filter(and_(Cces.BanAssultWeapons_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.BanAssultWeapons_16)).\
+                filter(and_(Cces.BanAssultWeapons_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES MakeCCPEasier_16
 #########################################################
+@app.route("/metadata_statesMakeCCPEasier_16")
+def Metadata_States4():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.MakeCCPEasier_16)).\
+                filter(Cces.MakeCCPEasier_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.MakeCCPEasier_16)).\
+                filter(and_(Cces.MakeCCPEasier_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.MakeCCPEasier_16)).\
+                filter(and_(Cces.MakeCCPEasier_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.MakeCCPEasier_16)).\
+                filter(Cces.MakeCCPEasier_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.MakeCCPEasier_16)).\
+                filter(and_(Cces.MakeCCPEasier_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.MakeCCPEasier_16)).\
+                filter(and_(Cces.MakeCCPEasier_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES AlwaysAllowChoice_16
 #########################################################
+@app.route("/metadata_statesAlwaysAllowChoice_16")
+def Metadata_States5():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(Cces.AlwaysAllowChoice_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(and_(Cces.AlwaysAllowChoice_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(and_(Cces.AlwaysAllowChoice_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(Cces.AlwaysAllowChoice_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(and_(Cces.AlwaysAllowChoice_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.AlwaysAllowChoice_16)).\
+                filter(and_(Cces.AlwaysAllowChoice_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES RapeIncestorHealth_16
 #########################################################
+@app.route("/metadata_statesRapeIncestorHealth_16")
+def Metadata_States6():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(Cces.RapeIncestorHealth_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(and_(Cces.RapeIncestorHealth_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(and_(Cces.RapeIncestorHealth_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(Cces.RapeIncestorHealth_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(and_(Cces.RapeIncestorHealth_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.RapeIncestorHealth_16)).\
+                filter(and_(Cces.RapeIncestorHealth_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES ProhibitMoreThan20Weeks_16
 #########################################################
+@app.route("/metadata_statesProhibitMoreThan20Weeks_16")
+def Metadata_States7():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(Cces.ProhibitMoreThan20Weeks_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(and_(Cces.ProhibitMoreThan20Weeks_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(and_(Cces.ProhibitMoreThan20Weeks_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(Cces.ProhibitMoreThan20Weeks_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(and_(Cces.ProhibitMoreThan20Weeks_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+                filter(and_(Cces.ProhibitMoreThan20Weeks_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES Employersdeclinebenefits_16
 #########################################################
+@app.route("/metadata_statesEmployersdeclinebenefits_16")
+def Metadata_States8():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(Cces.Employersdeclinebenefits_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(and_(Cces.Employersdeclinebenefits_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(and_(Cces.Employersdeclinebenefits_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(Cces.Employersdeclinebenefits_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(and_(Cces.Employersdeclinebenefits_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.Employersdeclinebenefits_16)).\
+                filter(and_(Cces.Employersdeclinebenefits_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES ProhibitFedFunds_16
 #########################################################
+@app.route("/metadata_statesProhibitFedFunds_16")
+def Metadata_States9():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(Cces.ProhibitFedFunds_16 == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(and_(Cces.ProhibitFedFunds_16 == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(and_(Cces.ProhibitFedFunds_16 == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(Cces.ProhibitFedFunds_16 == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(and_(Cces.ProhibitFedFunds_16 == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.ProhibitFedFunds_16)).\
+                filter(and_(Cces.ProhibitFedFunds_16 == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 #########################################################
 # JSON - METADATA STATE GROUP_BY TOTALS ROUTES GayMarriage
 #########################################################
+@app.route("/metadata_statesGayMarriage")
+def Metadata_States10():
+    
+    # Query to create two lists of tuples (state, number)
+    #S1 [4] i
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GayMarriage)).\
+                filter(Cces.GayMarriage == 'Support').\
+                group_by(Cces.StateName).all()
+    #S2 [1] m
+    StatesForM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GayMarriage)).\
+                filter(and_(Cces.GayMarriage == 'Support'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #S3 [1] f
+    StatesForF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GayMarriage)).\
+                filter(and_(Cces.GayMarriage == 'Support'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+    #O1 [1] j
+    StatesNot = db.session.query(Cces.StateName, func.count(Cces.GayMarriage)).\
+                filter(Cces.GayMarriage == 'Oppose').\
+                group_by(Cces.StateName).all()
+    #O2 [1] n
+    StatesNotM = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GayMarriage)).\
+                filter(and_(Cces.GayMarriage == 'Oppose'),(Cces.gender == 'male')).group_by(Cces.StateName).all()
+    #O3 [1] g
+    StatesNotF = db.session.query(Cces.StateName, Cces.gender, func.count(Cces.GayMarriage)).\
+                filter(and_(Cces.GayMarriage == 'Oppose'),(Cces.gender == 'female')).group_by(Cces.StateName).all()
+
+    # List that will hold final dictionaries - to be jsonified
+    States_Results = []
+    
+    for i, m, f, j, n, g in zip(StatesFor, StatesForM, StatesForF, StatesNot, StatesNotM, StatesNotF):
+        
+        #Determine if the state is more in support or oppose
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        
+        # Return Percentages rather than just raw data
+        totalVotes = i[3] + j[1]
+
+        # Build dictionary
+        tempfile = {}
+        tempfile['state'] = {
+            'StateName' : i[0],
+            'Lat' : i[1],
+            'Long' : i[2]
+        }
+        tempfile['voteTotal'] = {
+            'Support' : i[3],
+            'Oppose' : j[1],
+            'TotalVotes' : totalVotes,
+            'Support_%' : float(format(i[3] / totalVotes, '.2f')),
+            'Oppose_%' : float(format(j[1] / totalVotes, '.2f')),
+            'Overall' : tempoverall
+        }
+        tempfile['genderVote'] = {
+            'MaleSupport' : m[2],
+            'FemaleSupport' : f[2],
+            'MaleOppose' : n[2],
+            'FemaleOppose' : g[2],
+            'MaleTotal' : (m[2] + n[2]),
+            'FemaleTotal' : (f[2] + g[2])
+        }
+        tempfile['genderVotePerc'] = {
+            'MaleSupport' : float(format(m[2] / totalVotes, '.2f')),
+            'FemaleSupport' : float(format(f[2] / totalVotes, '.2f')),
+            'MaleOppose' : float(format(n[2] / totalVotes, '.2f')),
+            'FemaleOppose' : float(format(g[2] / totalVotes, '.2f')),
+        }
+        States_Results.append(tempfile)
+
+    print(States_Results)
+    return jsonify(States_Results)
 
 
 ##################################################################################################
