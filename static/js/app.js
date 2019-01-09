@@ -21,7 +21,7 @@ function buildMetadata(sample) {
 });
 }
 
-// PIE CHART FOR SURVAY TOTALS ONLY
+// PIE CHART FOR THE SURVEY TOTALS ONLY
 function pieChart(sample) {
 //   // Use `d3.json` to fetch the sample data for the plots
     d3.json(`/metadatatotals${sample}`).then((data) => {
@@ -54,6 +54,8 @@ function pieChart(sample) {
  });
 });
 }
+
+// MAP FOR THE SURVEY
 
 // Create Dropdown Menu, Populate first tables and visuals
 function init() {

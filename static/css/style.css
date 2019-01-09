@@ -2,8 +2,8 @@ body {
   background: darkgray;
 }
 .navbar-default .navbar-brand {
-  color: white;
-  background-color: rgb(20, 168, 153);
+  color: black;
+  background-color: ivory;
   font-family: 'Georgia', 'Times New Roman', Times, serif;
   font-size: 28px;
   font-weight: bold;
@@ -12,7 +12,7 @@ body {
 
 .navbar-header{
   width:400px;
-  margin-left:75px !important;
+  margin-left:30px ;
 }
 
 .navbar-header .navbar-toggle .collapsed {
@@ -47,7 +47,7 @@ text-align: center;
 
 .box {
 color: black;
-background: white;
+background: ivory;
 }
 
 .box-left {

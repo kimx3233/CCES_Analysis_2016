@@ -12,11 +12,109 @@
 
 <body>
 
+<!--   Navigation bar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://127.0.0.1:5000/">Team Tufte</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">State Total Data
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesGunBackgroundChecks_16">Gun Backgroud Checks</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitPublication_16">Publication Ban</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesBanAssultWeapons_16">Ban Assault Weapons </a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesMakeCCPEasier_16">Concealed Carry Permit</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesAlwaysAllowChoice_16">Alwasy Allow</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesRapeIncestorHealth_16">Rape Incestor Health</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitMoreThan20Weeks_16">Prohibit more than 20 weeks</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesEmployersdeclinebenefits_16">Declined Benefits</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitFedFunds_16">Federal Funds</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesGayMarriage">Gay Marriage</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Total Data
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesGunBackgroundChecks_16">Gun Backgroud Checks</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitPublication_16">Publication Ban</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesBanAssultWeapons_16">Ban Assault Weapons </a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesMakeCCPEasier_16">Concealed Carry Permit</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesAlwaysAllowChoice_16">Alwasy Allow</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesRapeIncestorHealth_16">Rape Incestor Health</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitMoreThan20Weeks_16">Prohibit more than 20 weeks</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesEmployersdeclinebenefits_16">Declined Benefits</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesProhibitFedFunds_16">Federal Funds</a>
+                        </li>
+                        <li>
+                            <a href="http://127.0.0.1:5000/metadata_statesGayMarriage">Gay Marriage</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</nav>
+
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>CCES Interactive Dashboard</h1>
-        <p>Use the interactive charts below to explore the dataset</p>
+        <h1>Cooperative Congressional Election Study (CCES)</h1>
+        <p>Use the interactive charts below to explore the dataset of the surveys from the CCES</p>
       </div>
     </div>
     <div class="row">
@@ -50,10 +148,10 @@
   </div>        <!-- Close Container Div -->
     
     
-<!--  Link the bubble plot from app.js to the bubble div ID below-->
+<!--  Link the map plot from app.js to the map div ID below-->
       <div class="row">
         <div class="col-md-12">
-          <div id="bubble"></div>
+          <div id="map"></div>
         </div>
       </div>
 
@@ -61,6 +159,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous">
+      </script>
 
 </body>
 
