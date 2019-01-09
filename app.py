@@ -51,27 +51,33 @@ def names():
     return jsonify(list(df.columns)[2:])
 
 
-@app.route("/metadata/<sample>")
-def sample_metadata(sample):
-    """Return the MetaData for a given sample."""
-    sel = [
-        Cces.GunBackgroundChecks_16
-        
-        
-    ]
+@app.route("/metadata/GunBC")
+def sample_metadata():
 
-    GBCfor = session.query(*sel).filter(Cces.GunBackgroundChecks_16 == 'Support').count()
-    GBCno = session.query(*sel).filter(Cces.GunBackgroundChecks_16 == 'Oppose').count()
+
+    StatesFor = session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Support').group_by(Cces.StateName).all()
+    StatesNot = session.query(Cces.StateName, func.count(Cces.GunBackgroundChecks_16)).filter(Cces.GunBackgroundChecks_16 == 'Oppose').group_by(Cces.StateName).all()
 
     # Create a dictionary entry for each row of metadata information
-    sample_metadata = {}
-    sample_metadata["GBCfor"] = GBCfor
-    sample_metadata["GBCno"] = GBCno
-    
-        
+    SecondTry = []
 
-    print(sample_metadata)
-    return jsonify(sample_metadata)
+    for i, j in zip(StatesFor, StatesNot):
+
+        tempfile = {}
+        tempfile['State'] = i[0]
+        tempfile['Support'] = i[1]
+        tempfile['Oppose'] = j[1]
+        if i[1] > j[1]:
+            tempoverall = 'Support'
+        else:
+            tempoverall = 'Oppose'
+        tempfile['Overall'] = tempoverall
+            
+        SecondTry.append(tempfile)
+
+
+    print(SecondTry)
+    return jsonify(SecondTry)
 
 
 
