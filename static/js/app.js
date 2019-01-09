@@ -57,6 +57,7 @@ function pieChart(sample) {
 
 // MAP FOR THE SURVEY
 
+
 // Create Dropdown Menu, Populate first tables and visuals
 function init() {
   // Grab a reference to the dropdown select element
