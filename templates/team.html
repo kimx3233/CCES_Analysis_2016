@@ -5,21 +5,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CCES Dashboard</title>
+  <title>Team Tufte</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/css/style.css">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- from folium test -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.css"/>
-  <!-- < THIS ONE OVERWRITES OUR CSS - DELETE! link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/> -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/> -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
-  <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
-  <!-- from folium test -->
+  <style>
+        html {
+          box-sizing: border-box;
+        }
+        
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+        
+        .column {
+          float: left;
+          width: 50%;
+          margin-bottom: 16px;
+          padding: 0 8px;
+        }
+        
+        @media screen and (max-width: 650px) {
+          .column {
+            width: 100%;
+            display: block;
+          }
+        }
+        
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+          padding: 0 16px;
+        }
+        
+        .container::after, .row::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        
+        .title {
+          color: grey;
+        }
+        
+        .button {
+          border: none;
+          outline: 0;
+          display: inline-block;
+          padding: 8px;
+          color: white;
+          background-color: #000;
+          text-align: center;
+          cursor: pointer;
+          width: 100%;
+        }
+        
+        .button:hover {
+          background-color: #555;
+        }
+        </style>
 </head>
 
 <body>
@@ -127,56 +173,66 @@
     </div>
 
 </nav>
+<body>
+        <h1>Meet the Team</h1>
+        <div class="row">
+                <div class="column">
+                  <div class="card">
+                    <img src="https://media.licdn.com/dms/image/C5603AQEgjcrLcVRrbg/profile-displayphoto-shrink_200_200/0?e=1552521600&v=beta&t=fv7gJulyyTHwFxgzgP1xAtnjzIpaAiaQ9COjFMxv4oI" alt="Justin" style="width:30%">
+                    <div class="container">
+                      <h2>Justin Kim</h2>
+                      <p class="title">Member</p>
+                      <p>Recent graduate from the Carlson School of Management at U of M Twin Cities</p>
+                      <p>Email: kimx3233@umn.edu</p>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="column">
+                  <div class="card">
+                    <img src="https://media.licdn.com/dms/image/C4D03AQF436Wo6bzyjg/profile-displayphoto-shrink_800_800/0?e=1552521600&v=beta&t=zB6wagi4VrYZH3F2M4haxPumt0tdtCe6jdFOZ6QbRUg" alt="David" style="width:30%">
+                    <div class="container">
+                      <h2>David Kreitzer</h2>
+                      <p class="title">Member</p>
+                      <p>Some text that describes me</p>
+                      <p>Email: kreitzer.gr@gmail.com</p>
+                    </div>
+                  </div>
+                </div>
 
- 
-    <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>Cooperative Congressional Election Study (CCES)</h1>
-        <p>Use the interactive charts below to explore the dataset of the surveys from the CCES</p>
-      </div>
-    </div>
-    <div class="row">
-        
-<!--   Metadata Section, Dropdown then Data Sample-->
-      <div class="col-md-4">
-        <div class="well">
-          <h5>SELECT Sample:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-        
-<!--    Link the Build Metadata app.js to the panel div ID below  -->
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title"> </h3>
-          </div>
-        <div id="sample-metadata" class="panel-body"></div>
-        </div>
-      <!-- </div> -->
-       
-    <!-- </div>  -->
-    <!-- <div class="row"> -->
-<!--  Link the pie chart from the app.js to the pie ID below-->
-      <!-- <div class="col-md-4"> -->
-        <div id="pie"></div>
-      </div>
+                <div class="column">
+                        <div class="card">
+                          <img src="img.jpg" alt="Zingha" style="width:30%">
+                          <div class="container">
+                            <h2>Zingha Sielatshom</h2>
+                            <p class="title">Member</p>
+                            <p>Some text that describes me</p>
+                            <p>Email: ZinghaSiel@gmail.com</p>
+                          </div>
+                        </div>
+                      </div>
 
-        <div class = "col-md-8">
-          <div id="map"></div>
-        </div>
-        
-        
-    </div>      <!-- Close the Div Class Row -->
-  </div>        <!-- Close Container Div -->
-
-
-  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
- 
-  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-      crossorigin="anonymous">
-      </script>
+                 <div class="column">
+                  <div class="card">
+                    <img src="https://media.licdn.com/dms/image/C4E03AQEwAgMiigJ12A/profile-displayphoto-shrink_800_800/0?e=1552521600&v=beta&t=anp8Hthx3W5Ygs9T98u8JtcCSyJmtQqvdxYEkL2nEZk" alt="Candy" style="width:30%">
+                    <div class="container">
+                      <h2>Candy Tiu</h2>
+                      <p class="title">Member</p>
+                      <p>Some text that describes me</p>
+                      <p>Email: candytiu96@gmail.com</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 </body>
+<!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous">
+    </script>
+
 
 </html>

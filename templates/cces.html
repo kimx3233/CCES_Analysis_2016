@@ -5,21 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CCES Dashboard</title>
+  <title>About CCES Cooperative Congressional Election Study</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/css/style.css">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- from folium test -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.css"/>
-  <!-- < THIS ONE OVERWRITES OUR CSS - DELETE! link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/> -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/> -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
-  <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
-  <!-- from folium test -->
+  <style>
+    p {
+    font-size: 18px;    
+    }
+  </style>
 </head>
 
 <body>
@@ -127,56 +121,44 @@
     </div>
 
 </nav>
+<div class="row">
+        <div class="col-xs-12  col-md-9">
+          <div class="article">
+            <h1>Cooperative Congressional Election Study</h1>
 
- 
-    <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>Cooperative Congressional Election Study (CCES)</h1>
-        <p>Use the interactive charts below to explore the dataset of the surveys from the CCES</p>
-      </div>
-    </div>
-    <div class="row">
-        
-<!--   Metadata Section, Dropdown then Data Sample-->
-      <div class="col-md-4">
-        <div class="well">
-          <h5>SELECT Sample:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-        
-<!--    Link the Build Metadata app.js to the panel div ID below  -->
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title"> </h3>
+            <p>The CCES is a 50,000+ person national stratified sample survey administered by YouGov. 
+                Half of the questionnaire consists of Common Content asked of all 50,000+ people, 
+                and half of the questionnaire consists of Team Content designed by each individual participating team 
+                and asked of a subset of 1,000 people. In addition, several teams may pool their resources to create Group Content.</p>
+  
+            <p>The survey consists of two waves in election years. In the pre-election phase, respondents answer two-thirds of the 
+                questionnaire. This segment of the survey asks about general political attitudes, various demographic factors, 
+                assessment of roll call voting choices, and political information. The pre-election phase is administered late September 
+                to late October and rolled out in three distinct time-periods, the end of September, the middle of October, 
+                and the end of October. Spacing of interviews across these intervals allows researchers to gauge the effects of 
+                campaign information and events on the state and district electorates. In the post-election phase, respondents answer
+                the other third of the questionnaire, mostly consisting of items related to the election that just occurred. 
+                The post-election phase is administered in November.</p>
+  
+            <p>In non-election years, the survey consists of a single wave conducted in the fall.</p>
           </div>
-        <div id="sample-metadata" class="panel-body"></div>
         </div>
-      <!-- </div> -->
-       
-    <!-- </div>  -->
-    <!-- <div class="row"> -->
-<!--  Link the pie chart from the app.js to the pie ID below-->
-      <!-- <div class="col-md-4"> -->
-        <div id="pie"></div>
       </div>
-
-        <div class = "col-md-8">
-          <div id="map"></div>
-        </div>
-        
-        
-    </div>      <!-- Close the Div Class Row -->
-  </div>        <!-- Close Container Div -->
+<body>
 
 
-  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
- 
-  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-      crossorigin="anonymous">
-      </script>
+
+</div>        <!-- Close Container Div -->
+
 </body>
+<!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous">
+    </script>
+
 
 </html>
