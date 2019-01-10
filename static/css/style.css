@@ -3,8 +3,7 @@ body {
 }
 .navbar-default .navbar-brand {
   color: black;
-  background-color: ivory;
-  font-family: 'Verdana', 'Times New Roman', Times, serif;
+  font-family: 'Verdana', 'serif';
   font-size: 28px;
   font-weight: bold;
 }
