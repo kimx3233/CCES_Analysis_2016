@@ -232,7 +232,7 @@ def Metadata_States1():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GunBackgroundChecks_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GunBackgroundChecks_16), Cces.StateAbb).\
                 filter(Cces.GunBackgroundChecks_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -271,7 +271,8 @@ def Metadata_States1():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -308,7 +309,7 @@ def Metadata_States2():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitPublication_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitPublication_16), Cces.StateAbb).\
                 filter(Cces.ProhibitPublication_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -347,7 +348,8 @@ def Metadata_States2():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -384,7 +386,7 @@ def Metadata_States3():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.BanAssultWeapons_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.BanAssultWeapons_16), Cces.StateAbb).\
                 filter(Cces.BanAssultWeapons_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -423,7 +425,8 @@ def Metadata_States3():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -460,7 +463,7 @@ def Metadata_States4():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.MakeCCPEasier_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.MakeCCPEasier_16), Cces.StateAbb).\
                 filter(Cces.MakeCCPEasier_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -499,7 +502,8 @@ def Metadata_States4():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -536,7 +540,7 @@ def Metadata_States5():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.AlwaysAllowChoice_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.AlwaysAllowChoice_16), Cces.StateAbb).\
                 filter(Cces.AlwaysAllowChoice_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -575,7 +579,8 @@ def Metadata_States5():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -612,7 +617,7 @@ def Metadata_States6():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.RapeIncestorHealth_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.RapeIncestorHealth_16), Cces.StateAbb).\
                 filter(Cces.RapeIncestorHealth_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -651,7 +656,8 @@ def Metadata_States6():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -688,7 +694,7 @@ def Metadata_States7():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitMoreThan20Weeks_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitMoreThan20Weeks_16), Cces.StateAbb).\
                 filter(Cces.ProhibitMoreThan20Weeks_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -727,7 +733,8 @@ def Metadata_States7():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -764,7 +771,7 @@ def Metadata_States8():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.Employersdeclinebenefits_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.Employersdeclinebenefits_16), Cces.StateAbb).\
                 filter(Cces.Employersdeclinebenefits_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -803,7 +810,8 @@ def Metadata_States8():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -840,7 +848,7 @@ def Metadata_States9():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitFedFunds_16)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.ProhibitFedFunds_16), Cces.StateAbb).\
                 filter(Cces.ProhibitFedFunds_16 == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -879,7 +887,8 @@ def Metadata_States9():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
@@ -916,7 +925,7 @@ def Metadata_States10():
     
     # Query to create two lists of tuples (state, number)
     #S1 [4] i
-    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GayMarriage)).\
+    StatesFor = db.session.query(Cces.StateName, Cces.Latitude, Cces.Longitude, func.count(Cces.GayMarriage), Cces.StateAbb).\
                 filter(Cces.GayMarriage == 'Support').\
                 group_by(Cces.StateName).all()
     #S2 [1] m
@@ -955,7 +964,8 @@ def Metadata_States10():
         tempfile['state'] = {
             'StateName' : i[0],
             'Lat' : i[1],
-            'Long' : i[2]
+            'Long' : i[2],
+            'StateAbb' : i[4]
         }
         tempfile['voteTotal'] = {
             'Support' : i[3],
