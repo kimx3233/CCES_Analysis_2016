@@ -24,19 +24,19 @@ float: right;
 }
 
 h1 {
-  color: rgb(20, 168, 153);
+  color: black;
 font-family: Georgia;
 font-size: 30px;
 font-weight: bold;
-text-align: left
+text-align: left;
 }
 
 h2 {
-  color: rgb(20, 168, 153);
+  color: black;
   font-family: Georgia;
 font-size: 23px;
 font-weight: bold;
-text-align: center
+text-align: left;
 }
 
 h3 {
