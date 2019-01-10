@@ -23,8 +23,9 @@ function buildMap(sample) {
   console.log('starting BuildMap Function', sample);
   var url = `/metadata_states${sample}`;
   console.log(url);
-  var aboutTime = d3.json(url);
+ 
   console.log(d3.json(url));
+
   d3.json(url).then(function(data){
     console.log(data[0]);
     console.log(data[0]['state']['StateName']);
@@ -35,6 +36,24 @@ function buildMap(sample) {
     var percSupport = [];
     var percOppose = [];
     
+     // console.log('crash before map data?')
+    var mapData = [{
+      type: 'choropleth',
+      locationmode: 'USA-states',
+      locations: (stateAbb),
+      z: (stateVote),
+      text: (stateAbb),
+      colorscale:[['support', 'rgb(242,240,247)'], ['oppose','rgb(84,39,143)']],
+    }];
+
+    var layout = {
+      title: 'Map of US test lable',
+      geo: {
+        scope: 'usa',
+        autosize: true,
+        showlegend: false}
+        };
+
     for (var i = 0; i < data.length; i++) {
       stateAbb.push(data[i]['state']['StateAbb']);
       stateVote.push(data[i]['voteTotal']['Overall']);
@@ -42,35 +61,19 @@ function buildMap(sample) {
       voteOppose.push(data[i]['voteTotal']['Oppose']);
       percSupport.push(data[i]['voteTotal']['Support_%']);
       percOppose.push(data[i]['voteTotal']['Oppose_%']);
-    
-    console.log(stateAbb);
-    console.log(stateVote);
-    console.log(voteSupport);
-    console.log(voteOppose);
-    console.log(percSupport);
-    console.log(percOppose);
+    };
+    // console.log(stateAbb);
+    // console.log(stateVote);
+    // console.log(voteSupport);
+    // console.log(voteOppose);
+    // console.log(percSupport);
+    // console.log(percOppose);
   
-  // console.log('crash before map data?')
-  var mapData = [{
-    type: 'choropleth',
-    locationmode: 'USA-states',
-    locations: stateAbb,
-    z: stateVote,
-    text: (stateAbb + '</br>'+'Votes For:'+ voteSupport + '</br>' + 'Votes Agains:' + voteOppose),
-    colorscale:[['support', 'rgb(242,240,247)'], ['oppose','rgb(84,39,143)']],
-  }];
-
-  var layout = {
-    title: 'Map of US test lable',
-    geo: {
-      scope: 'usa',
-      showlakes: true,
-      lakecolor: 'rgb(255,255,255)'}
-      };
+ 
 
   console.log('Please Plot Map!')
-  Plotly.plot("map", mapData, layout);
-    };
+  Plotly.plot("map", mapData, layout, {responsive: true});
+    
   }); 
 }
 

@@ -55,6 +55,22 @@ def index():
     return render_template("index.html")
 
 #################################################
+# Team Page Route
+#################################################
+
+@app.route("/teamtufte")
+def teamindex():
+    """Return the homepage."""
+    return render_template("team.html")
+#################################################
+# Homepage Route
+#################################################
+
+@app.route("/aboutcces")
+def ccesindex():
+    """Return the homepage."""
+    return render_template("cces.html")
+#################################################
 # JSON - Column Names Route - Create a List of Names
 #################################################
 
