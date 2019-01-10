@@ -1,8 +1,6 @@
 import os
-
 import pandas as pd
 import numpy as np
-
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -11,8 +9,14 @@ from sqlalchemy import Column, Integer, String, Float
 # from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import func
 from sqlalchemy import and_, or_, not_
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import json
+import folium
+
+states = ('db/statecoords.json')
+
+votesFor = ('db/VotesFor.csv')
 
 app = Flask(__name__)
 
@@ -83,7 +87,30 @@ def names():
     df = pd.read_sql_query(stmt, db.session.bind)
 
     return jsonify(list(df.columns)[11:])
-    
+#################################################
+# JSON - GeoJson
+#################################################
+
+@app.route("/geojson")
+def geojson():
+    """Return a geojson of state boundries"""
+    with open('db/statecoords.json') as json_data:
+        d = json.load(json_data)
+        print(d)
+
+    return jsonify(d)   
+#################################################
+# JSON - State Approve Percentages in JSON
+#################################################
+
+@app.route("/ApprovePerc")
+def approvePerc():
+    """Return a geojson of state boundries"""
+    with open('db/StateApprovePerc.json') as json_data:
+        d1 = json.load(json_data)
+        print(d1)
+
+    return jsonify(d1)   
 ##################################################################################################
 # JSON - METADATA TOTALS ROUTES
 ##################################################################################################
