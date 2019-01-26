@@ -69,15 +69,12 @@ function buildMap(sample) {
     // console.log(percSupport);
     // console.log(percOppose);
   
- 
 
   console.log('Please Plot Map!')
   Plotly.plot("map", mapData, layout, {responsive: true});
     
   }); 
 }
-
-
 
 // PIE CHART FOR THE SURVEY TOTALS ONLY
 function pieChart(sample) {
@@ -109,9 +106,6 @@ function pieChart(sample) {
       });
     });
   }
-
-
-
 
 // Create Dropdown Menu, Populate first tables and visuals
 function init() {
